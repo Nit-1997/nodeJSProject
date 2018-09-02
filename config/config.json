@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "root",
+    "password": "nitin",
+    "database": "burgerDb",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
