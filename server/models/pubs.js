@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, Sequelize) => {
-  var orderSchema = sequelize.define('order', {
+  var pubSchema = sequelize.define('pub', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true
@@ -17,11 +17,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false
     },
-    pincode: {
-      type: Sequelize.INTEGER,
-      allowNull: false
-    },
-    order:{
+    about:{
       type: Sequelize.STRING,
       allowNull:false
     },
@@ -29,17 +25,37 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER,
       allowNull: false
     },
-    deliveryMethod:{
-      type:Sequelize.STRING,
+    fac1:{
+      type: Sequelize.STRING,
       allowNull:false
+    },
+    fac2:{
+      type: Sequelize.STRING,
+      allowNull:false
+    },
+    fac3:{
+      type: Sequelize.STRING,
+      allowNull:false
+    },
+    fac4:{
+      type: Sequelize.STRING,
+      allowNull:false
+    },
+    fac5:{
+      type: Sequelize.STRING,
+      allowNull:false
+    },
+    pubContact: {
+      type: Sequelize.STRING,
+      allowNull: true
     },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE
     }
   }, {});
-  orderSchema.associate = function (models) {
-    orderSchema.belongsTo(models.user, { foreignKey: 'userId', targetKey: 'id'});
+  pubSchema.associate = function (models) {
+    pubSchema.belongsTo(models.user, { foreignKey: 'userId', targetKey: 'id'});
   };
-  return orderSchema;
+  return pubSchema;
 };

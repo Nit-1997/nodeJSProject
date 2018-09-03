@@ -28,7 +28,7 @@ module.exports =  (sequelize, Sequelize) => {
     }
   }, {});
   userSchema.associate= function (models) {
-    userSchema.hasOne(models.order);
+    userSchema.hasOne(models.pub);
   };
   return userSchema;
 };

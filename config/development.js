@@ -4,6 +4,6 @@ module.exports = {
 	    MYSQLDBHostname: 'localhost',
 	    MYSQLDBUsername: 'root',
 	    MYSQLDBPassword: 'nitin',
-	    MYSQLDBName: 'burgerDb',
+	    MYSQLDBName: 'clubbo',
 	}
 };

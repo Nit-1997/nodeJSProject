@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('orders', {
+    return queryInterface.createTable('pubs', {
      id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -14,16 +14,11 @@ module.exports = {
         key: 'id'
       },
       allowNull: false
-    },
-    address: {
+    }address: {
       type: Sequelize.STRING,
       allowNull: false
     },
-    pincode: {
-      type: Sequelize.INTEGER,
-      allowNull: false
-    },
-    order:{
+    about:{
       type: Sequelize.STRING,
       allowNull:false
     },
@@ -31,9 +26,29 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: false
     },
-    deliveryMethod:{
-      type:Sequelize.STRING,
+    fac1:{
+      type: Sequelize.STRING,
       allowNull:false
+    },
+    fac2:{
+      type: Sequelize.STRING,
+      allowNull:false
+    },
+    fac3:{
+      type: Sequelize.STRING,
+      allowNull:false
+    },
+    fac4:{
+      type: Sequelize.STRING,
+      allowNull:false
+    },
+    fac5:{
+      type: Sequelize.STRING,
+      allowNull:false
+    },
+    pubContact: {
+      type: Sequelize.STRING,
+      allowNull: true
     },
     createdAt: {
       allowNull: false,
@@ -42,6 +57,6 @@ module.exports = {
   });
   },
   down: function(queryInterface, Sequelize) {
-    return queryInterface.dropTable('orders');
+    return queryInterface.dropTable('pubs');
   }
 };

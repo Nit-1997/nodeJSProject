@@ -1,4 +1,4 @@
 module.exports = {
-  order: require('./order'),
+  pubs: require('./pubs'),
   user: require('./user')
 };
