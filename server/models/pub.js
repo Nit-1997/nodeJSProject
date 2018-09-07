@@ -17,37 +17,37 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false
     },
-    about:{
+    about: {
       type: Sequelize.STRING,
-      allowNull:false
+      allowNull: false
     },
     price: {
       type: Sequelize.INTEGER,
       allowNull: false
     },
-    fac1:{
-      type: Sequelize.STRING,
-      allowNull:false
-    },
-    fac2:{
-      type: Sequelize.STRING,
-      allowNull:false
-    },
-    fac3:{
-      type: Sequelize.STRING,
-      allowNull:false
-    },
-    fac4:{
-      type: Sequelize.STRING,
-      allowNull:false
-    },
-    fac5:{
-      type: Sequelize.STRING,
-      allowNull:false
-    },
     pubContact: {
       type: Sequelize.STRING,
       allowNull: true
+    },
+    fac1: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    fac2: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    fac3: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    fac4: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    fac5: {
+      type: Sequelize.STRING,
+      allowNull: false
     },
     createdAt: {
       allowNull: false,
