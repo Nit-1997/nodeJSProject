@@ -47,26 +47,26 @@
 			    <div class="col-sm-6 col-xs-12 center-col ht900 lp">
 			       <div class="row lg">
                         <h1>SignUp</h1>
-                        <form>
+                        <form action="/register" method="POST">
 							  <div class="form-group">
 							  	<div class="form-group">
 							    <label for="name">Full Name</label>
-							    <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter your full name">
+							    <input type="text" class="form-control" name="name" id="name" aria-describedby="emailHelp" placeholder="Enter your full name">
 							  </div>
-							    <label for="exampleInputEmail1">Email address</label>
-							    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-							  </div>
-							  <div class="form-group">
-							    <label for="number">Phone Number</label>
-							    <input type="tel" class="form-control" id="number" placeholder="Enter your Phone Number">
+							    <label for="email">Email address</label>
+							    <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp"  placeholder="Enter email">
 							  </div>
 							  <div class="form-group">
-							    <label for="exampleInputPassword1">Password</label>
-							    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+							    <label for="contact">Phone Number</label>
+							    <input type="tel" class="form-control" name="contact" id="contact" placeholder="Enter your Phone Number">
 							  </div>
 							  <div class="form-group">
-							    <label for="exampleInputPassword1">Confirm Password</label>
-							    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Confirm Password">
+							    <label for="password">Password</label>
+							    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+							  </div>
+							  <div class="form-group">
+							    <label for="confirmPassword">Confirm Password</label>
+							    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password">
 							  </div>
 							  <div>
 							    <p><a href="#">Forgot password?</a></p>

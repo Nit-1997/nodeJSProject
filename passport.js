@@ -33,28 +33,32 @@ module.exports = function(passport, user) {
         }).then(function(user) {
             if (user)
             {
-                console.log('nahi mila');
-                return done(null, false);
+               // console.log('nahi mila');
+                return done(null, false ,{
+                        message: 'That email is already taken'
+                    });
             } else{
-                console.log('milgaya');
+               // console.log('milgaya');
+               // console.log(req.body);
                 var data =
                 {
                     email: email,
                     password: password,
                     name:req.body.name,
                     contact:req.body.contact,
+                    password:password,
                     createdAt:new Date(),
                     upadtedAt:new Date()
                 };
-                console.log("data batao");
-                console.log(data);
+                //console.log("data batao");
+                //console.log(data);
                 User.create(data).then(function(newUser, created) {
                     if (!newUser) {
-                        console.log('fat gaya');
+                       // console.log('fat gaya');
                         return done(null, false);
                     }
                     if (newUser) {
-                        console.log('yahan fata');
+                       // console.log('yahan fata');
                         return done(null, newUser);
                     }
 
@@ -79,7 +83,8 @@ module.exports = function(passport, user) {
         var User = user;
         User.findOne({
             where: {
-                email: email
+                email: email,
+                password:password
             }
         }).then(function(user) {
             if (!user) {

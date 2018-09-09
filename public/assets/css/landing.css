@@ -259,7 +259,7 @@ h1, h1 {
 }
 
 .circle1{
-	background: url('../../assets/images/n.png');
+	background: url('../../assets/images/n.jpg');
 	background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -270,7 +270,7 @@ h1, h1 {
 
 @media only screen and (min-width: 768px){
 	.circle1{
-		background: url('../../assets/images/n.png');
+		background: url('../../assets/images/n.jpg');
 		background-size: cover;
 	    background-repeat: no-repeat;
 	    background-position: center;
@@ -281,7 +281,7 @@ h1, h1 {
 }
 
 .circle2{
-	background: url('../../assets/images/m.png');
+	background: url('../../assets/images/m.jpg');
 	background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -292,7 +292,7 @@ h1, h1 {
 
 @media only screen and (min-width: 768px){
 	.circle2{
-		background: url('../../assets/images/m.png');
+		background: url('../../assets/images/m.jpg');
 		background-size: cover;
 	    background-repeat: no-repeat;
 	    background-position: center;
@@ -303,7 +303,7 @@ h1, h1 {
 }
 
 .circle3{
-	background: url('../../assets/images/h.png');
+	background: url('../../assets/images/h.jpg');
 	background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -314,7 +314,7 @@ h1, h1 {
 
 @media only screen and (min-width: 768px){
 	.circle3{
-			background: url('../../assets/images/h.png');
+			background: url('../../assets/images/h.jpg');
 			background-size: cover;
 		    background-repeat: no-repeat;
 		    background-position: center;
@@ -327,7 +327,7 @@ h1, h1 {
 
 
 .circle4{
-	background: url('../../assets/images/nitin.png');
+	background: url('../../assets/images/nitin.jpg');
 	background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -336,7 +336,7 @@ h1, h1 {
     position: absolute;
 }
 .circle5{
-	background: url('../../assets/images/t.png');
+	background: url('../../assets/images/t.jpg');
 	background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -345,7 +345,7 @@ h1, h1 {
     position: absolute;
 }
 .circle6{
-	background: url('../../assets/images/s.png');
+	background: url('../../assets/images/s.jpg');
 	background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

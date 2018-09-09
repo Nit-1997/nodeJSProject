@@ -7,6 +7,7 @@ var  express        = require("express")
    , methodOverride = require("method-override")
    , models         = require('models')
    , routes         = require('routes')
+   , flash          = require("connect-flash")
    , cors           = require('cors')
    , passport       = require('passport')
    , session        = require('express-session');
@@ -16,7 +17,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(__dirname+"/public"));
 app.use(methodOverride("_method"));
 app.use(bodyParser.json({limit: "50mb"}));
-
+app.use(flash());
 
 // set up app views handling
 app.set('view engine', 'ejs');
@@ -32,10 +33,29 @@ app.use(passport.initialize());
 app.use(passport.session());
 require('./passport.js')(passport, models.user);
 
+//our own middleware to add current user to all the pages
+app.use(function(req,res,next){
+   res.locals.currentUser = req.user; 
+   res.locals.error = req.flash("error");
+   res.locals.success = req.flash("success");
+   next();  //very imp as it is a middleware it requires next operation
+});
+
 
 // load up app routes
 app.get(['/', '/home', '/landing'], function(req,res){
-   res.render('landing');
+   var auth = {
+      status:false,
+      user:null
+   };
+   if(req.isAuthenticated()){
+      auth = {
+        status:true,
+        user:req.user
+       }
+   }
+   //console.log('hola hola',req.user);
+   res.render('landing',{auth:auth});
 });
 
 app.get('/login', function(req,res){
@@ -70,7 +90,11 @@ app.get('/createPub',isLoggedIn,function(req,res){
    res.render('createPubs');
 });
 
-
+app.get("/logout",function(req,res){
+    req.logout();
+    req.flash("success","logged you out!!");
+    res.redirect("/landing");
+});
 
 //middleware
 function isLoggedIn(req, res, next) {
@@ -85,5 +109,5 @@ require('routes').forEach(function (a) {
    });
 
 app.listen(7000,function(){
-     console.log("burger-builder has started");
+     console.log("clubbo has started");
 });
