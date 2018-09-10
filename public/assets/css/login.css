@@ -181,3 +181,14 @@ a{
 .bbc{
 	margin-top: 78px;
 }
+
+
+.alert {
+    padding: 15px;
+    margin-bottom:0px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-align: center;
+    margin-left: 300px;
+    margin-right: 300px;
+}

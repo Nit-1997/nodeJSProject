@@ -1,11 +1,12 @@
 module.exports = function(passport, user) {
     var User = user;
     var LocalStrategy = require('passport-local').Strategy;
+    var bCrypt = require('bcrypt-nodejs');
 
    //serialize
    passport.serializeUser(function(user, done) {
     done(null, user.id);
-   });
+});
 
    // deserialize user 
    passport.deserializeUser(function(id, done) {   
@@ -16,7 +17,7 @@ module.exports = function(passport, user) {
             done(user.errors, null);
         }
     });
-   });
+});
 
     //signup
     passport.use('local-signup', new LocalStrategy(
@@ -26,6 +27,11 @@ module.exports = function(passport, user) {
         passReqToCallback: true 
     },
     function(req, email, password, done) {
+        //hashing the password
+        var generateHash = function(password) {
+            return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
+        };
+
         User.findOne({
             where: {
                 email: email
@@ -33,40 +39,34 @@ module.exports = function(passport, user) {
         }).then(function(user) {
             if (user)
             {
-               // console.log('nahi mila');
                 return done(null, false ,{
-                        message: 'That email is already taken'
-                    });
-            } else{
-               // console.log('milgaya');
-               // console.log(req.body);
-                var data =
-                {
-                    email: email,
-                    password: password,
-                    name:req.body.name,
-                    contact:req.body.contact,
-                    password:password,
-                    createdAt:new Date(),
-                    upadtedAt:new Date()
-                };
-                //console.log("data batao");
-                //console.log(data);
-                User.create(data).then(function(newUser, created) {
-                    if (!newUser) {
-                       // console.log('fat gaya');
-                        return done(null, false);
-                    }
-                    if (newUser) {
-                       // console.log('yahan fata');
-                        return done(null, newUser);
-                    }
-
+                    message: 'That email is already taken'
                 });
+            } else{
+             var userPassword = generateHash(password);
+             var data =
+             {
+                email: email,
+                password: userPassword,
+                name:req.body.name,
+                contact:req.body.contact,
+                password:userPassword,
+                createdAt:new Date(),
+                upadtedAt:new Date()
+            };
+            User.create(data).then(function(newUser, created) {
+                if (!newUser) {
+                    return done(null, false);
+                }
+                if (newUser) {
+                    return done(null, newUser);
+                }
 
-            }
+            });
 
-        });
+        }
+
+    });
 
     }
     ));
@@ -81,23 +81,31 @@ module.exports = function(passport, user) {
     },
     function(req, email, password, done) {
         var User = user;
-        User.findOne({
-            where: {
-                email: email,
-                password:password
-            }
-        }).then(function(user) {
-            if (!user) {
-                return done(null, false);
-            }
-            var userinfo = user.get();
-            console.log(userinfo);
-            return done(null, userinfo);
-        }).catch(function(err) {
-            console.log("Error:", err);
-            return done(null, false);
-        });
-    }
-    ));
+        var isValidPassword = function(userpass, password) {
+         return bCrypt.compareSync(password, userpass);
+     }
+     User.findOne({
+        where: {
+            email: email
+        }
+    }).then(function(user) {
+        if (!user) {
+            return done(null, false, {
+                message: 'Email does not exist'
+            });
+        }
+        if (!isValidPassword(user.password, password)) {
+            return done(null, false, {
+                message: 'Incorrect password.'
+            });
+        }
+        var userinfo = user.get();
+        return done(null, userinfo);
+    }).catch(function(err) {
+        console.log("Error:", err);
+        return done(null, false);
+    });
+}
+));
 
 }

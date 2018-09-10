@@ -35,20 +35,21 @@
         <li><a href="#">Discover <i class="fas fa-search"></i></a></li>
      </ul>
      <ul class="nav navbar-nav navbar-right">
-       <li><a href="/createPub">Add a pub <i class="fa fa-plus-circle"></i></a></li>
-       <li><a href="/login">Login <i class="fas fa-sign-in-alt"></i></a></li>
-       <li><a href="/signup">Sign up <i class="fas fa-user-plus"></i></a></li>
+     	<%if(auth.status===true && auth !== undefined){%>
+           <li><a href="#">welcome <%=auth.user.name%> <i class="fas fa-sign-in-alt"></i></a></li>
+           <li><a href="/createPub">Add a pub <i class="fa fa-plus-circle"></i></a></li>
+           <li><a href="/logout">Logout <i class="fas fa-sign-in-alt"></i></a></li>
+        <%}else{%>
+           <li><a href="/createPub">Add a pub <i class="fa fa-plus-circle"></i></a></li>
+           <li><a href="/login">Login <i class="fas fa-sign-in-alt"></i></a></li>
+           <li><a href="/signup">Sign up <i class="fas fa-user-plus"></i></a></li>
+         <%}%>  
      </ul>
     </div>
   </nav>
  </header>
 
 <!--landing slide-->
-<%if(auth){%>
-   
-<%}else{%>
-    
-<%}%>
  <section id="home" class="position-relative cover-background tz-builder-bg-image border-none bg-img-one customHome bbc">
             <div class="container one-sixth-screen position-relative">
                 <div class="row">
@@ -67,8 +68,7 @@
                 </div>
             </div>
   </section>
-
-
+  
 <div>
     <section id="about" class="ht320 row jumbotron text-center">
                          <h1>Want a great night out?</h1>
