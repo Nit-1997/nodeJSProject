@@ -22,6 +22,7 @@ app.use(flash());
 // set up app views handling
 app.set('view engine', 'ejs');
 
+console.log(models.pub);
 
 // Passport config
 app.use(session({
@@ -54,6 +55,7 @@ if(req.isAuthenticated()){
     user:req.user
   }
 }
+console.log(req.user);
 res.render('landing',{auth:auth});
 });
 

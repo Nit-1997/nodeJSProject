@@ -46,26 +46,46 @@
   <div class="col-sm-6 col-xs-12 center-col ht900 lp">
    <div class="row lg">
     <h1>Create Pubs</h1>
-    <form>
+    <form action="/v1/pub/create" method="POST" enctype="multipart/form-data">
         <div class="form-group">
           <label for="name">Pub name</label>
-          <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter your full name">
+          <input type="text" class="form-control" name="name" id="name" aria-describedby="name" placeholder="Enter pub's full name">
         </div>
         <div class="form-group">
-          <label for="name">About the pub</label>
-          <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter your full name">
+          <label for="about">About the pub</label>
+          <input type="text" class="form-control" id="about" aria-describedby="about" name="about" placeholder="write about the pub">
+        </div>
+
+         <div class="form-group">
+          <label for="address">Pub Address</label>
+          <input type="address" class="form-control" id="address" aria-describedby="address" name="address" placeholder="Enter the pub Address">
+        </div>
+        
+        <div class="form-group">
+                 <label for="price">Price for 2</label>
+                 <input class="form-control" type="number" name="price" placeholder="Price for 2 people approx" min="100" step="1">
+        </div>
+
+        <div class="form-group">
+                  <label for="email">*Registered email address on Clubbo</label>
+                  <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email">
         </div>
         <div class="form-group">
           <label for="name">Facilities</label>
-          <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Facility1"><br/>
-          <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Facility2"><br/>
-          <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Facility3"><br/>
-          <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Facility4"><br/>
-          <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Facility5"><br/>
+          <input type="text" class="form-control" id="fac1" name="fac1" aria-describedby="fac1" placeholder="Facility1"><br/>
+          <input type="text" class="form-control" id="fac2" name="fac2" aria-describedby="fac2" placeholder="Facility2"><br/>
+          <input type="text" class="form-control" id="fac3" name="fac3" aria-describedby="fac3" placeholder="Facility3"><br/>
+          <input type="text" class="form-control" id="fac4" name="fac4" aria-describedby="fac4" placeholder="Facility4"><br/>
+          <input type="text" class="form-control" id="fac5" name="fac5" aria-describedby="fac5" placeholder="Facility5"><br/>
+        </div>
+
+        <div class="form-group">
+                    <label for="image">Upload Pub Image</label>
+                    <input class="form-control" type="file" id="image" name="image" accept="image/*" required>
         </div>
       <div class="form-group">
-        <label for="number">Contact Details</label>
-        <input type="tel" class="form-control" id="number" placeholder="Enter your Phone Number">
+        <label for="pubContact">Contact Details</label>
+        <input type="tel" class="form-control" id="pubContact" name="pubContact" placeholder="Enter your Phone Number">
       </div>
       <div>
         <p><a href="#">Forgot password?</a></p>
