@@ -12,6 +12,9 @@ var  express        = require("express")
 , passport       = require('passport')
 , session        = require('express-session');
 
+
+const sequelize = models.sequelize;
+
 app.use(cors());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(__dirname+"/public"));
@@ -43,37 +46,23 @@ app.use(function(req,res,next){
  });
 
 
+
 // load up app routes
 app.get(['/', '/home', '/landing'], function(req,res){
- var auth = {
-  status:false,
-  user:null
-};
-if(req.isAuthenticated()){
-  auth = {
-    status:true,
-    user:req.user
-  }
-}
-console.log(req.user);
-res.render('landing',{auth:auth});
+  res.render('landing');
 });
 
 app.get('/login', function(req,res){ 
-  data = {
-     msg:'logged in'
-  }
-  if(!req.isAuthenticated()){
-    data.msg = 'Use correct credentials to login first';
- } 
- res.render('login',{data:data});
+ res.render('login');
 });
 
 app.post('/signin', passport.authenticate('local-signin', {
   successRedirect: '/landing',
-  failureRedirect: '/login'
-}
-));
+  failureRedirect: '/login',
+  failureFlash: true,
+  successFlash: 'Welcome to Clubbo'
+}),function(req,res){
+});
 
 app.get('/signup', function(req,res){
  res.render('signup');
@@ -85,32 +74,16 @@ app.post('/register', passport.authenticate('local-signup', {
 } 
 ));
 
-app.get('/single', function(req,res){
-  var auth = {
-    status:false,
-    user:null
-  };
-  if(req.isAuthenticated()){
-    auth = {
-      status:true,
-      user:req.user
-    }
-  }
-  res.render('singlePubView',{auth:auth});
+app.get('/multi', async function(req,res){
+  var pubs = await sequelize.query("select * from pubs", {type: sequelize.QueryTypes.SELECT});
+  console.log(pubs);
+  res.render('allClubView',{pubs:pubs});
 });
 
-app.get('/multi', function(req,res){
-  var auth = {
-    status:false,
-    user:null
-  };
-  if(req.isAuthenticated()){
-    auth = {
-      status:true,
-      user:req.user
-    }
-  }
-  res.render('allClubView',{auth:auth});
+app.get('/multi/:id',async function(req,res){
+  var pub = await sequelize.query("select * from pubs where id ="+req.params.id, {type: sequelize.QueryTypes.SELECT});
+  console.log(pub);
+  res.render('singlePubView',{pub:pub});
 });
 
 app.get('/createPub',isLoggedIn,function(req,res){

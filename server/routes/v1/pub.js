@@ -25,9 +25,7 @@ var upload = multer({ storage: storage, fileFilter: imageFilter})
 
 
 router.route('/create')
-  .post(upload.single('image'),pubController.create,function(req,res){
-        res.redirect('/multi');
-  });
+  .post(upload.single('image'),pubController.create);
 
 
 

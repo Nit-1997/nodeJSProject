@@ -39,15 +39,15 @@
         <li><a href="#">Discover <i class="fas fa-search"></i></a></li>
      </ul>
      <ul class="nav navbar-nav navbar-right">
-      <%if(auth.status===true && auth !== undefined){%>
-           <li><a href="#">welcome <%=auth.user.name%> <i class="fas fa-sign-in-alt"></i></a></li>
-           <li><a href="/createPub">Add a pub <i class="fa fa-plus-circle"></i></a></li>
-           <li><a href="/logout">Logout <i class="fas fa-sign-in-alt"></i></a></li>
-        <%}else{%>
+      <% if(!currentUser){ %>        
            <li><a href="/createPub">Add a pub <i class="fa fa-plus-circle"></i></a></li>
            <li><a href="/login">Login <i class="fas fa-sign-in-alt"></i></a></li>
            <li><a href="/signup">Sign up <i class="fas fa-user-plus"></i></a></li>
-         <%}%>  
+        <% }else{ %>
+           <li><a href="#">welcome <%=currentUser.name%> <i class="fas fa-sign-in-alt"></i></a></li>
+           <li><a href="/createPub">Add a pub <i class="fa fa-plus-circle"></i></a></li>
+           <li><a href="/logout">Logout <i class="fas fa-sign-in-alt"></i></a></li>
+         <% } %> 
      </ul>
     </div>
   </nav>
@@ -55,6 +55,20 @@
 
 <!--landing slide-->
  <section  class="bbc">
+     <% if(error && error.length>0){%> 
+             <div class="container">
+                  <div class="alert alert-danger" role="alert">
+                      <%=error%>
+                  </div> 
+             </div>
+    <% }%>
+     <% if(success && success.length>0){%>
+             <div class="container">
+                  <div class="alert alert-success" role="alert">
+                      <%=success%>
+                  </div> 
+             </div>
+    <% }%>         
     <div class="ht500 headd">
     	<h1 class="highdef">Welcome to Fluids</h1> 
     	<p class="hd">

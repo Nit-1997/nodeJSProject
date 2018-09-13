@@ -13,6 +13,10 @@ module.exports = (sequelize, Sequelize) => {
       },
       allowNull: false
     },
+    pubName: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     address: {
       type: Sequelize.STRING,
       allowNull: false
@@ -24,6 +28,10 @@ module.exports = (sequelize, Sequelize) => {
     price: {
       type: Sequelize.INTEGER,
       allowNull: false
+    },
+    image: {
+      type: Sequelize.STRING,
+      allowNull: true
     },
     pubContact: {
       type: Sequelize.STRING,

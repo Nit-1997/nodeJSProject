@@ -39,6 +39,7 @@ module.exports = function(passport, user) {
         }).then(function(user) {
             if (user)
             {
+                 res.flash("error",'That email is already taken');
                 return done(null, false ,{
                     message: 'That email is already taken'
                 });
@@ -59,6 +60,7 @@ module.exports = function(passport, user) {
                     return done(null, false);
                 }
                 if (newUser) {
+                    req.flash("success","Welcome to clubbo "+newUser.name);
                     return done(null, newUser);
                 }
 
@@ -90,11 +92,13 @@ module.exports = function(passport, user) {
         }
     }).then(function(user) {
         if (!user) {
+            res.flash("error",'Email does not exist');
             return done(null, false, {
                 message: 'Email does not exist'
             });
         }
         if (!isValidPassword(user.password, password)) {
+            res.flash("error",'Incorrect password.');
             return done(null, false, {
                 message: 'Incorrect password.'
             });

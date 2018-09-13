@@ -119,11 +119,8 @@ body{
 	padding:0px 0px 0px 0px;
 }
 
-.pubimg{
-  background:url('../../assets/images/img2.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+.newimg{
+  height:inherit;
 }
 
 .pubimg2{

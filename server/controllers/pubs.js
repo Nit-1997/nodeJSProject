@@ -23,7 +23,7 @@ module.exports = {
 
 			var data = {
 				userId:userId,
-				name: req.body.name,
+				pubName: req.body.name,
 				about:req.body.about,
 				fac1:req.body.fac1,
 				fac2:req.body.fac2,
@@ -39,15 +39,10 @@ module.exports = {
 
 			cloudinary.uploader.upload(req.file.path, function(result) {
 				data.image = result.secure_url;
-				pubs.create(data,function(err,newPub){
-					if (err) {
-						console.log(err);
-						next();
-					}else{
-						console.log(newPub);
-						next();
-					}
+				pubs.create(data).then(newPub=>{
+                      res.redirect('/multi');
 				});
+
 			});
 		}catch(error) {
 			console.log(error);

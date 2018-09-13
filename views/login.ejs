@@ -42,11 +42,37 @@
   </nav>
  </header>
 
+ <% if(error && error.length>0){%> 
+             <div class="container">
+                  <div class="alert alert-danger" role="alert">
+                      <%=error%>
+                  </div> 
+             </div>
+    <% }%>
+     <% if(success && success.length>0){%>
+             <div class="container">
+                  <div class="alert alert-success" role="alert">
+                      <%=success%>
+                  </div> 
+             </div>
+    <% }%>        
+
  <section class="bbc">
+           <% if(error && error.length>0){%> 
+             <div class="container">
+                  <div class="alert alert-danger" role="alert">
+                      <%=error%>
+                  </div> 
+             </div>
+    <% }%>
+     <% if(success && success.length>0){%>
+             <div class="container">
+                  <div class="alert alert-success" role="alert">
+                      <%=success%>
+                  </div> 
+             </div>
+    <% }%>        
   	       <div class="row">
-            <div class="alert alert-danger">
-                 <strong><%= data.msg%></strong>
-            </div>
 			    <div class="col-sm-6 col-xs-12 center-col ht900 lp">
 			       <div class="row lg">
                         <h1>Login</h1>
