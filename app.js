@@ -74,6 +74,7 @@ app.post('/register', passport.authenticate('local-signup', {
 } 
 ));
 
+//show route
 app.get('/multi', async function(req,res){
   var pubs = await sequelize.query("select * from pubs", {type: sequelize.QueryTypes.SELECT});
   console.log(pubs);
@@ -83,6 +84,7 @@ app.get('/multi', async function(req,res){
 app.get('/multi/:id',async function(req,res){
   var pub = await sequelize.query("select * from pubs where id ="+req.params.id, {type: sequelize.QueryTypes.SELECT});
   console.log(pub);
+  pub = pub[0];
   res.render('singlePubView',{pub:pub});
 });
 
@@ -90,13 +92,30 @@ app.get('/createPub',isLoggedIn,function(req,res){
  res.render('createPubs');
 });
 
+
+//EDIT ROUTE
+app.get("/multi/:id/edit",isLoggedIn,function(req,res){
+ sequelize.query("select * from pubs where id ="+req.params.id, {type: sequelize.QueryTypes.SELECT})
+          .then(pubs=>{
+              var pub = pubs[0];
+              res.render('editPubs',{pub:pub});
+          }); 
+});
+
+
 app.get("/logout",function(req,res){
   req.logout();
   req.flash("success","logged you out!!");
   res.redirect("/landing");
 });
 
-//middleware
+app.get("/ticket",function(req,res){
+  res.render('ticket');
+});
+
+//**************************************
+//middlewares
+//**************************************
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()){
    return next();
@@ -104,6 +123,11 @@ function isLoggedIn(req, res, next) {
  res.redirect('/login');
 }
 
+
+app.post('/book',function(req,res){
+ var paymentId  = req.body.paymentId;
+ console.log(paymentId);
+});
 
 require('routes').forEach(function (a) {
  app.use(a.prefix, a.server);

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Clubbo</title>
+  <!--bootstrap-->
+  <link rel="stylesheet" href="../assets/lib/bootstrap.min.css" />
+  <!-- font-awesome icon -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+  <!--main.css-->
+  <link rel="stylesheet" type="text/css" href="../assets/css/editPubss.css" />
+  <!--google font-->
+  <link href="https://fonts.googleapis.com/css?family=Damion" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Raleway" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:300" rel="stylesheet">
+</head>
+<body>
+
+  <!--navbar--> 
+  <header> 
+    <nav class="navbar navbar-inverse no-margin navbar-fixed-top" role="navigation">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>    
+      </div>
+      <a class="navbar-brand" href="/landing">Clubbo</a>
+      <div class="navbar-collapse collapse">
+       <ul class="nav navbar-nav navbar-left">
+        <li><a href="#">Discover <i class="fas fa-search"></i></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+       <% if(!currentUser){ %>        
+           <li><a href="/createPub">Add a pub <i class="fa fa-plus-circle"></i></a></li>
+           <li><a href="/login">Login <i class="fas fa-sign-in-alt"></i></a></li>
+           <li><a href="/signup">Sign up <i class="fas fa-user-plus"></i></a></li>
+        <% }else{ %>
+           <li><a href="#">welcome <%=currentUser.name%> <i class="fas fa-sign-in-alt"></i></a></li>
+           <li><a href="/createPub">Add a pub <i class="fa fa-plus-circle"></i></a></li>
+           <li><a href="/logout">Logout <i class="fas fa-sign-in-alt"></i></a></li>
+         <% } %> 
+     </ul>
+   </div>
+ </nav>
+</header>
+
+<section class="bbc">
+ <% if(error && error.length>0){%> 
+             <div class="container">
+                  <div class="alert alert-danger" role="alert">
+                      <%=error%>
+                  </div> 
+             </div>
+    <% }%>
+     <% if(success && success.length>0){%>
+             <div class="container">
+                  <div class="alert alert-success" role="alert">
+                      <%=success%>
+                  </div> 
+             </div>
+    <% }%>        
+ <div class="row">
+  <div class="col-sm-6 col-xs-12 center-col ht900 lp">
+   <div class="row lg">
+    <h1>Edit Pubs</h1>
+    <form action  = "/v1/pub/edit/<%=pub.id%>" method ="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="name">Pub name</label>
+          <input type="text" class="form-control" name="name" id="name" aria-describedby="name" placeholder="Enter pub's full name" value="<%=pub.pubName%>">
+        </div>
+        <div class="form-group">
+          <label for="about">About the pub</label>
+          <input type="text" class="form-control" id="about" aria-describedby="about" name="about" placeholder="write about the pub" value="<%=pub.about%>">
+        </div>
+
+         <div class="form-group">
+          <label for="address">Pub Address</label>
+          <input type="address" class="form-control" id="address" aria-describedby="address" name="address" placeholder="Enter the pub Address" value="<%=pub.address%>">
+        </div>
+        
+        <div class="form-group">
+                 <label for="price">Price for 2</label>
+                 <input class="form-control" type="number" name="price" placeholder="Price for 2 people approx" min="100" step="1" value="<%=pub.price%>">
+        </div>
+
+        <div class="form-group">
+                  <label for="email">*Registered email address on Clubbo</label>
+                  <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+          <label for="name">Facilities</label>
+          <input type="text" class="form-control" id="fac1" name="fac1" aria-describedby="fac1" placeholder="Facility1" value="<%=pub.fac1%>"><br/>
+          <input type="text" class="form-control" id="fac2" name="fac2" aria-describedby="fac2" placeholder="Facility2" value="<%=pub.fac2%>"><br/>
+          <input type="text" class="form-control" id="fac3" name="fac3" aria-describedby="fac3" placeholder="Facility3" value="<%=pub.fac3%>"><br/>
+          <input type="text" class="form-control" id="fac4" name="fac4" aria-describedby="fac4" placeholder="Facility4" value="<%=pub.fac4%>"><br/>
+          <input type="text" class="form-control" id="fac5" name="fac5" aria-describedby="fac5" placeholder="Facility5" value="<%=pub.fac5%>"><br/>
+        </div>
+
+        <div class="form-group">
+                    <label for="image">Upload Pub Image</label>
+                    <input class="form-control" type="file" id="image" name="image" accept="image/*" required>
+        </div>
+      <div class="form-group">
+        <label for="pubContact">Contact Details</label>
+        <input type="tel" class="form-control" id="pubContact" name="pubContact" placeholder="Enter your Phone Number" value="<%=pub.pubContact%>">
+      </div>
+      <div>
+        <p><a href="#">Forgot password?</a></p>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+   </form>
+ </div>
+</div>
+<div class="col-sm-6 col-xs-12 center-col ht900 lt"></div>    
+</div>       
+</section>
+
+
+<section class="ht450 foot">
+ <div class="row ht150">
+  <div class="col-md-3 col-sm-12 col-xs-12 ht20 footlf">Clubbo</div>
+  <div class="col-md-6 col-sm-12 col-xs-12 ht160 footer">
+    <div class="row ht160">
+      <div class="col-md-6 col-sm-6 col-xs-6 ht160">
+        <ul class="high">
+          <li class="lih"><strong>My Account</strong></li>
+          <li>Dashboard</li>
+          <li>My bookings</li>
+        </ul>
+      </div>
+      <div class="col-md-6 col-sm-6 col-xs-6 ht160">
+        <ul class="high">
+          <li class="lih"><strong>Help</strong></li>
+          <li>Privacy Policy</li>
+          <li>FAQs</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-sm-12 col-xs-12 ht0"></div>
+</div>
+</section>
+
+<!--jQuery-->
+<script type="text/javascript" src="../assets/lib/jquery.min.js"></script>
+<!--bootstrap js -->      
+<script type="text/javascript" src="../assets/lib/bootstrap.min.js"></script>
+
+</body>
+</html>
