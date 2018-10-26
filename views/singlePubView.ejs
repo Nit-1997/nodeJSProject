@@ -69,7 +69,7 @@
                   </div> 
              </div>
     <% }%>         
-    <div class="ht500 headd">
+    <div id="map" class="ht500 headd">
     	<h1 class="highdef">Welcome to <%=pub.pubName%></h1> 
     	<p class="hd">
     		From the moment you walk into <%=pub.pubName%> club until you leave,we want your night to be the best of your life.
@@ -79,7 +79,7 @@
 
  <section>
  	<div class="row">
- 		<div class="col-md-7 col-sm-12 col-xs-12 ht900">
+ 		<div  class="col-md-7 col-sm-12 col-xs-12 ht900">
  			<div class="row">
  				<h1 class="pubnm"><%=pub.pubName%></h1>
  				<p class="pubadd"><strong><%=pub.address%></strong></p>
@@ -263,7 +263,35 @@
   	 	<div class="col-md-3 col-sm-12 col-xs-12 ht0"></div>
   	 </div>
   </section>
-  
+  <script>
+  function initMap() {
+    var lat = <%= pub.lat %>;
+    var lng = <%= pub.lng %>;
+    var center = {lat: lat, lng: lng };
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8,
+        center: center,
+        scrollwheel: false
+    });
+    var contentString = `
+      <strong><%= pub.name %><br />
+      <%= pub.address %></strong>
+      <p><%= pub.about %></p>
+    `
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+    var marker = new google.maps.Marker({
+        position: center,
+        map: map
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+  }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-zWKyBq78dZgZkKsLzWNoxNdoKDuBfzU&callback=initMap"></script>
+
   <!--jQuery-->
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script type="text/javascript" src="../assets/lib/jquery.min.js"></script>
