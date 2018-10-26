@@ -10,6 +10,7 @@ var  express        = require("express")
 , flash          = require("connect-flash")
 , cors           = require('cors')
 , passport       = require('passport')
+, geocoder       = require("geocoder")
 , session        = require('express-session');
 
 
@@ -88,7 +89,7 @@ app.get('/multi/:id',async function(req,res){
   res.render('singlePubView',{pub:pub});
 });
 
-app.get('/createPub',isLoggedIn,function(req,res){
+app.get('/createPub',isOwnerMode,function(req,res){
  res.render('createPubs');
 });
 
@@ -96,10 +97,10 @@ app.get('/createPub',isLoggedIn,function(req,res){
 //EDIT ROUTE
 app.get("/multi/:id/edit",isLoggedIn,function(req,res){
  sequelize.query("select * from pubs where id ="+req.params.id, {type: sequelize.QueryTypes.SELECT})
-          .then(pubs=>{
-              var pub = pubs[0];
-              res.render('editPubs',{pub:pub});
-          }); 
+ .then(pubs=>{
+  var pub = pubs[0];
+  res.render('editPubs',{pub:pub});
+}); 
 });
 
 
@@ -123,6 +124,18 @@ function isLoggedIn(req, res, next) {
  res.redirect('/login');
 }
 
+
+async function isOwnerMode(req,res,next){
+  if(req.isAuthenticated()){
+   if(req.user.mode === 'owner'){
+    return next();
+  }
+  req.flash("error","You need to sign up in owner mode");
+  return res.redirect("/landing");
+}
+req.flash("error","You need to login first");
+res.redirect("/landing");
+}
 
 app.post('/book',function(req,res){
  var paymentId  = req.body.paymentId;

@@ -19,6 +19,14 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false
     },
+    lat:{
+      type: Sequelize.DOUBLE,
+      allowNull: false
+    },
+    lng:{
+      type: Sequelize.DOUBLE,
+      allowNull: false
+    },
     address: {
       type: Sequelize.STRING,
       allowNull: false

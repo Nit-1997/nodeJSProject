@@ -6,6 +6,10 @@ module.exports =  (sequelize, Sequelize) => {
       primaryKey: true,
       autoIncrement: true
     },
+    mode:{
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     name: {
       type: Sequelize.STRING,
       allowNull: false
@@ -33,6 +37,7 @@ module.exports =  (sequelize, Sequelize) => {
   }, {});
   userSchema.associate= function (models) {
     userSchema.hasOne(models.pub);
+    userSchema.hasMany(models.comment);
   };
   return userSchema;
 };

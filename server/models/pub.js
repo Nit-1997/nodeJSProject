@@ -17,6 +17,14 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false
     },
+    lat:{
+      type: Sequelize.DOUBLE,
+      allowNull: false
+    },
+    lng:{
+      type: Sequelize.DOUBLE,
+      allowNull: false
+    },
     address: {
       type: Sequelize.STRING,
       allowNull: false
@@ -63,6 +71,7 @@ module.exports = (sequelize, Sequelize) => {
     }
   }, {});
   pubSchema.associate = function (models) {
+    pubSchema.hasMany(models.comment);
     pubSchema.belongsTo(models.user, { foreignKey: 'userId', targetKey: 'id'});
   };
   return pubSchema;
