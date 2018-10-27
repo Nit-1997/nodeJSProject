@@ -71,7 +71,15 @@
 				<div class="col-md-8 col-sm-8 col-xs-12 ht500 side">
 				   <div class="ht161"></div>
 				   <div class="input-group slide">
-				      <input type="text" class="form-control" placeholder="Search for pubs">
+				      <!--<input type="text" class="form-control" placeholder="Search for pubs">-->
+             <p>
+              <form action="/multi" method="GET" class="form-inline">
+                <div class="form-group">
+                  <input type="text" name="search" placeholder="search..." class="form-control">
+                  <input type="submit" value="Search" class="btn btn-default">
+                </div>
+              </form>
+            </p>
 				   </div>
 				   <h4 class="slide"><strong>Filters</strong></h4>
 				   <hr>
@@ -103,7 +111,9 @@
 		<div class="col-md-8 col-sm-8 col-xs-12">
 			<h1 class="pubs"><strong>Best Pubs in Mysore:-</strong></h1>
 			<br><br>
-
+        <% if(noMatch !== null) { %>
+             <h3><%= noMatch %></h3>
+         <% } %>
       <% pubs.forEach(pub => { %>
       <div class="event">
       <div class="row ht40">

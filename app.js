@@ -77,9 +77,19 @@ app.post('/register', passport.authenticate('local-signup', {
 
 //show route
 app.get('/multi', async function(req,res){
-  var pubs = await sequelize.query("select * from pubs", {type: sequelize.QueryTypes.SELECT});
-  console.log(pubs);
-  res.render('allClubView',{pubs:pubs});
+  var noMatch = null;
+  if(req.query.search) {
+    //const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+    var pubs = await sequelize.query("select * from pubs where pubName = "+"'"+req.query.search+"'", {type: sequelize.QueryTypes.SELECT});
+    if(pubs.length < 1) {
+      noMatch = "No pubs match that query, please try again.";
+    }
+    res.render("allClubView",{pubs:pubs, noMatch: noMatch});
+  }else{
+    var pubs = await sequelize.query("select * from pubs", {type: sequelize.QueryTypes.SELECT});
+    console.log(pubs);
+    res.render('allClubView',{pubs:pubs, noMatch: noMatch}); 
+  }
 });
 
 app.get('/multi/:id',async function(req,res){
@@ -149,3 +159,8 @@ require('routes').forEach(function (a) {
 app.listen(7000,function(){
  console.log("clubbo has started");
 });
+
+
+// function escapeRegex(text) {
+//     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+// };
