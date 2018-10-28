@@ -72,6 +72,7 @@ module.exports = (sequelize, Sequelize) => {
   }, {});
   pubSchema.associate = function (models) {
     pubSchema.hasMany(models.comment);
+    pubSchema.hasMany(models.events);
     pubSchema.belongsTo(models.user, { foreignKey: 'userId', targetKey: 'id'});
   };
   return pubSchema;

@@ -152,6 +152,70 @@ app.post('/book',function(req,res){
  console.log(paymentId);
 });
 
+
+app.get('/multi/:id/createEvents',function(req,res){
+ const pre = {};
+  pre.id = req.params.id;
+ res.render("createEvents",{pre:pre});
+});
+
+//
+var multer = require('multer');
+var storage = multer.diskStorage({
+  filename: function(req, file, callback) {
+    callback(null, Date.now() + file.originalname);
+  }
+});
+var imageFilter = function (req, file, cb) {
+    // accept image files only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+      return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+  };
+  var upload = multer({ storage: storage, fileFilter: imageFilter});
+  var cloudinary = require('cloudinary');
+  cloudinary.config({ 
+    cloud_name: 'dskmn0vwa', 
+    api_key:"943622486141547", 
+    api_secret:"klX-ayutXqmxdZUmtL9bXhTQbro"
+  });
+//
+
+
+
+app.post('/multi/:id/createEvent',upload.single('image'),function(req,res){
+         console.log(req.user.id,"nininininnin");
+         var data = {
+        userId:req.user.id,
+        pubId:req.params.id,
+        eventName: req.body.name,
+        about:req.body.about,
+        price:req.body.price,
+        eventDate: new Date(),
+        eventContact:req.body.pubContact,
+        createdAt: new Date(),
+        image:req.body.image
+       }
+       
+       const event = models.events;
+
+       cloudinary.uploader.upload(req.file.path, function(result) {
+        data.image = result.secure_url;
+        event.create(data).then(newEvent=>{
+          res.redirect('/multi/:id/allEvents');
+        });
+
+       });
+});
+
+app.get('/multi/:id/allEvents',async function(req,res){
+ var event = await sequelize.query("select * from events where pubId ="+req.params.id, {type: sequelize.QueryTypes.SELECT});
+ console.log(event);
+ res.render('allEvents',{event:event});
+});
+
+
 require('routes').forEach(function (a) {
  app.use(a.prefix, a.server);
 });
