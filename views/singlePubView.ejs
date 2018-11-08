@@ -70,9 +70,9 @@
              </div>
     <% }%>         
     <div id="map" class="ht500 headd">
-    	<h1 class="highdef">Welcome to <%=pub.pubName%></h1> 
+    	<h1 class="highdef">Welcome to <%=pre.pub.pubName%></h1> 
     	<p class="hd">
-    		From the moment you walk into <%=pub.pubName%> club until you leave,we want your night to be the best of your life.
+    		From the moment you walk into <%=pre.pub.pubName%> club until you leave,we want your night to be the best of your life.
         </p>
     </div>         
  </section>
@@ -81,8 +81,8 @@
  	<div class="row">
  		<div  class="col-md-7 col-sm-12 col-xs-12 ht900">
  			<div class="row">
- 				<h1 class="pubnm"><%=pub.pubName%></h1>
- 				<p class="pubadd"><strong><%=pub.address%></strong></p>
+ 				<h1 class="pubnm"><%=pre.pub.pubName%></h1>
+ 				<p class="pubadd"><strong><%=pre.pub.address%></strong></p>
  					<img src="../assets/images/x.png" class="men">
  					<img src="../assets/images/y.jpg" class="men">
  					<p><span class="food">Food Menu</span><span class="bar">Bar Menu</span></p>
@@ -99,13 +99,13 @@
  						<h5><strong>Features and Amenities:</strong></h5>
  					</div>
  					<div class="col-md-3 col-sm-3 col-xs-3">
- 						<p><%=pub.fac1%></p>
+ 						<p><%=pre.pub.fac1%></p>
  					</div>
  					<div class="col-md-3 col-sm-3 col-xs-3">
- 						<p><%=pub.fac2%></p>
+ 						<p><%=pre.pub.fac2%></p>
  					</div>
  					<div class="col-md-3 col-sm-3 col-xs-3">
- 						<p><%=pub.fac3%></p>
+ 						<p><%=pre.pub.fac3%></p>
  					</div>
  				</div>
  				<div class="row cell">
@@ -113,10 +113,10 @@
  						
  					</div>
  					<div class="col-md-3 col-sm-3 col-xs-3">
- 						<p><%=pub.fac4%></p>
+ 						<p><%=pre.pub.fac4%></p>
  					</div>
  					<div class="col-md-3 col-sm-3 col-xs-3">
- 						<p><%=pub.fac5%></p>
+ 						<p><%=pre.pub.fac5%></p>
  					</div>
  					<div class="col-md-3 col-sm-3 col-xs-3">
  						<a>View all</a>
@@ -127,7 +127,7 @@
  						<h5><strong>About</strong></h5>
  					</div>
  					<div class="col-md-9 col-sm-9 col-xs-9">
- 						<p><%=pub.about%></p>
+ 						<p><%=pre.pub.about%></p>
  					</div>
  				</div>
  				<div class="row cell">
@@ -135,7 +135,7 @@
  						<h5><strong>Location</strong></h5>
  					</div>
  					<div class="col-md-6 col-sm-6 col-xs-6">
- 						<p><%=pub.address%></p>
+ 						<p><%=pre.pub.address%></p>
  					</div>
  					<div class="col-md-3 col-sm-3 col-xs-3 ht40">
  						<a>View on maps</a>
@@ -146,7 +146,7 @@
  						<h5><strong>Contact</strong></h5>
  					</div>
  					<div class="col-md-9 col-sm-9 col-xs-9">
- 						<p>+91-<%=pub.pubContact%></p>
+ 						<p>+91-<%=pre.pub.pubContact%></p>
  					</div>
  				</div>
  				<hr>
@@ -155,18 +155,18 @@
                  <div class ="hell">
                  	<h3 class="kell lell">Fluids Lounge - Reviews and Ratings</h3>
                     <div class="text-right">
-                        <a href = "#" class="btn btn-success">Add a new comment</a>
+                        <a href = "/multi/<%=pre.pub.id%>/newComment" class="btn btn-success">Add a new comment</a>
                     </div>
                     <hr>
                    
-  
+                    <%pre.comment.forEach(comm =>{%>
                      <div class="row comm">
                      	  <div class="col-md-1 col-sm-1 col-xs-1 avatar"></div>
                           <div class="col-md-11 col-sm-11 col-xs-11">
                               <strong class="na">Nitin</strong>
                               <span class="pull-right"></span>
                               <p class="cell">
-                                  Big Brewsky is a microbrewery and is for people who very specific about the fine and superior quality of drinks and service. A comfortable and awesome
+                                  <%=comm.content%>
                               </p>
                                       <a class="btn btn-xs btn-warning" href="#">Edit</a>
                                       <form>
@@ -174,39 +174,8 @@
                                       </form>         
                           </div>
                      </div>
-
-
-                     <div class="row comm">
-                     	  <div class="col-md-1 col-sm-1 col-xs-1 avatar"></div>
-                          <div class="col-md-11 col-sm-11 col-xs-11">
-                              <strong class="na">Nitin</strong>
-                              <span class="pull-right"></span>
-                              <p class="cell">
-                                  Big Brewsky is a microbrewery and is for people who very specific about the fine and superior quality of drinks and service. A comfortable and awesome
-                              </p>
-                                      <a class="btn btn-xs btn-warning" href="#">Edit</a>
-                                      <form>
-                                          <button class="btn btn-danger btn-xs">Delete</button>
-                                      </form>         
-                          </div>
-                     </div>
-
-                     <div class="row comm">
-                     	  <div class="col-md-1 col-sm-1 col-xs-1 avatar"></div>
-                          <div class="col-md-11 col-sm-11 col-xs-11">
-                              <strong class="na">Nitin</strong>
-                              <span class="pull-right"></span>
-                              <p class="cell">
-                                  Big Brewsky is a microbrewery and is for people who very specific about the fine and superior quality of drinks and service. A comfortable and awesome
-                              </p>
-                                      <a class="btn btn-xs btn-warning" href="#">Edit</a>
-                                      <form>
-                                          <button class="btn btn-danger btn-xs">Delete</button>
-                                      </form>         
-                          </div>
-                     </div>                 
-                </div>
-
+                     <%})%>
+                 </div>
  			</div>
  		</div>
  		<div class="col-md-5 col-sm-12 col-xs-12 ht900">
@@ -219,11 +188,11 @@
 							    <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="pick a date">
 							    </div>
 							  </div>
-							 <a href="/multi/<%=pub.id%>/allEvents" class="btn-primary">Book Now</button>
+							 <a href="/multi/<%=pre.pub.id%>/allEvents" class="btn-primary">Book Now</button>
 							  <!-- <button  class="btn btn-primary reg" id="rzp-button1">Book Now</button> -->
                 <br><br>
-                <% if(currentUser&& ((pub.userId) === (currentUser.id))){ %>
-                   <a href="/multi/<%=pub.id%>/createEvents" class="btn-primary">create event</button>
+                <% if(currentUser&& ((pre.pub.userId) === (currentUser.id))){ %>
+                   <a href="/multi/<%=pre.pub.id%>/createEvents" class="btn-primary">create event</button>
                 <% } %>
 							  <br><br>
             </form>
@@ -233,8 +202,8 @@
  </section>
  <br><br>
 
- <% if(currentUser&& ((pub.userId) === (currentUser.id))){ %>
-       <a href ="/multi/<%=pub.id%>/edit" class="btn btn-warning btn-xs">Edit</a>
+ <% if(currentUser&& ((pre.pub.userId) === (currentUser.id))){ %>
+       <a href ="/multi/<%=pre.pub.id%>/edit" class="btn btn-warning btn-xs">Edit</a>
  <% } %>
 
  
@@ -264,8 +233,8 @@
   </section>
   <script>
   function initMap() {
-    var lat = <%= pub.lat %>;
-    var lng = <%= pub.lng %>;
+    var lat = <%= pre.pub.lat %>;
+    var lng = <%= pre.pub.lng %>;
     var center = {lat: lat, lng: lng };
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 14,
@@ -273,9 +242,9 @@
         scrollwheel: false
     });
     var contentString = `
-      <strong><%= pub.name %><br />
-      <%= pub.address %></strong>
-      <p><%= pub.about %></p>
+      <strong><%= pre.pub.name %><br />
+      <%= pre.pub.address %></strong>
+      <p><%= pre.pub.about %></p>
     `
     var infowindow = new google.maps.InfoWindow({
       content: contentString

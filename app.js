@@ -94,9 +94,14 @@ app.get('/multi', async function(req,res){
 
 app.get('/multi/:id',async function(req,res){
   var pub = await sequelize.query("select * from pubs where id ="+req.params.id, {type: sequelize.QueryTypes.SELECT});
+  var comment = await sequelize.query("select * from comments where pubId ="+req.params.id, {type: sequelize.QueryTypes.SELECT});
   console.log(pub);
   pub = pub[0];
-  res.render('singlePubView',{pub:pub});
+  var pre = {};
+  pre.pub = pub;
+  pre.comment = comment;
+  console.log('hihihihihi',pre);
+  res.render('singlePubView',{pre:pre});
 });
 
 app.get('/createPub',isOwnerMode,function(req,res){
@@ -203,7 +208,7 @@ app.post('/multi/:id/createEvent',upload.single('image'),function(req,res){
        cloudinary.uploader.upload(req.file.path, function(result) {
         data.image = result.secure_url;
         event.create(data).then(newEvent=>{
-          res.redirect('/multi/:id/allEvents');
+          res.redirect('/multi/'+req.params.id);
         });
 
        });
@@ -214,6 +219,121 @@ app.get('/multi/:id/allEvents',async function(req,res){
  console.log(event);
  res.render('allEvents',{event:event});
 });
+
+
+
+
+
+
+
+//************************************************************
+//comment
+//************************************************************
+
+app.get("/multi/:id/newComment",isLoggedIn,async function(req,res){
+     var pub = await sequelize.query("select * from pubs where id ="+req.params.id, {type: sequelize.QueryTypes.SELECT});
+     const pre = {};
+     pre.id = req.params.id;
+     res.render("newComment",{pre:pre});
+});
+
+app.post("/multi/:id/newComments",isLoggedIn,function(req,res){
+             const Comment = models.comment;
+             console.log('hiihihihi',req.body);
+             var data = {
+                userId:req.user.id,
+                pubId:req.params.id,
+                content:req.body.cont,
+                createdAt:new Date(),
+                updatedAt:new Date()
+             }
+
+
+              Comment.create(data).then(newComment =>{
+                 res.redirect('/multi/'+req.params.id);
+              }); 
+});
+
+// //Edit comment
+// router.get("/:comment_id/edit",middleware.checkCommentOwnership,function(req,res){
+//      Campground.findById(req.params.id,function(err,foundCampground){
+//           if(err||!foundCampground){
+//               req.flash("error","campground does not exist");
+//               return res.redirect("back");
+//           }
+//            Comment.findById(req.params.comment_id,function(err,comment){
+//          if(err){
+//               req.flash("error",err.message);
+//               res.redirect("back");
+//           }else{
+//              res.render("comments/edit",{campground_id:req.params.id,comment:comment});
+//           }         
+//      });
+//   });
+// });
+
+// //update comment
+// router.put("/:comment_id",middleware.checkCommentOwnership,function(req,res){
+//     Comment.findByIdAndUpdate(req.params.comment_id,req.body.comment,function(err,foundComment){
+//          if(err){
+//               req.flash("error",err.message);
+//              res.redirect("back");
+//          }else{
+//               req.flash("success","Comment updated successfully!!");
+//              res.redirect("/campgrounds/"+req.params.id);
+//          } 
+//     }); 
+// });
+
+// //delete comment
+// router.delete("/:comment_id",middleware.checkCommentOwnership,function(req,res){
+//     Comment.findByIdAndRemove(req.params.comment_id,function(err){
+//           if(err){
+//                req.flash("error",err.message);
+//               res.redirect("back");
+//           }else{
+//               req.flash("success","Comment deleted successfully!!");
+//               res.redirect("/campgrounds/"+req.params.id);
+//           } 
+//     }); 
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 require('routes').forEach(function (a) {
