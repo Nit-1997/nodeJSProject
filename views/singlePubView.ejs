@@ -163,15 +163,17 @@
                      <div class="row comm">
                      	  <div class="col-md-1 col-sm-1 col-xs-1 avatar"></div>
                           <div class="col-md-11 col-sm-11 col-xs-11">
-                              <strong class="na">Nitin</strong>
+                              <strong class="na"><%=comm.author%></strong>
                               <span class="pull-right"></span>
                               <p class="cell">
                                   <%=comm.content%>
                               </p>
-                                      <a class="btn btn-xs btn-warning" href="#">Edit</a>
+                                    <% if(currentUser&&(comm.author === currentUser.name)){ %>
+                                      <a class="btn btn-xs btn-warning" href="/multi/<%=pre.pub.id%>/editComment/<%=comm.id%>">Edit</a>
                                       <form>
                                           <button class="btn btn-danger btn-xs">Delete</button>
-                                      </form>         
+                                      </form>
+                                    <% } %>           
                           </div>
                      </div>
                      <%})%>

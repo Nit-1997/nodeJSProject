@@ -160,7 +160,7 @@ app.post('/book',function(req,res){
 
 app.get('/multi/:id/createEvents',function(req,res){
  const pre = {};
-  pre.id = req.params.id;
+ pre.id = req.params.id;
  res.render("createEvents",{pre:pre});
 });
 
@@ -190,28 +190,28 @@ var imageFilter = function (req, file, cb) {
 
 
 app.post('/multi/:id/createEvent',upload.single('image'),function(req,res){
-         console.log(req.user.id,"nininininnin");
-         var data = {
-        userId:req.user.id,
-        pubId:req.params.id,
-        eventName: req.body.name,
-        about:req.body.about,
-        price:req.body.price,
-        eventDate: new Date(),
-        eventContact:req.body.pubContact,
-        createdAt: new Date(),
-        image:req.body.image
-       }
-       
-       const event = models.events;
+ console.log(req.user.id,"nininininnin");
+ var data = {
+  userId:req.user.id,
+  pubId:req.params.id,
+  eventName: req.body.name,
+  about:req.body.about,
+  price:req.body.price,
+  eventDate: new Date(),
+  eventContact:req.body.pubContact,
+  createdAt: new Date(),
+  image:req.body.image
+}
 
-       cloudinary.uploader.upload(req.file.path, function(result) {
-        data.image = result.secure_url;
-        event.create(data).then(newEvent=>{
-          res.redirect('/multi/'+req.params.id);
-        });
+const event = models.events;
 
-       });
+cloudinary.uploader.upload(req.file.path, function(result) {
+  data.image = result.secure_url;
+  event.create(data).then(newEvent=>{
+    res.redirect('/multi/'+req.params.id);
+  });
+
+});
 });
 
 app.get('/multi/:id/allEvents',async function(req,res){
@@ -230,48 +230,64 @@ app.get('/multi/:id/allEvents',async function(req,res){
 //comment
 //************************************************************
 
-app.get("/multi/:id/newComment",isLoggedIn,async function(req,res){
-     var pub = await sequelize.query("select * from pubs where id ="+req.params.id, {type: sequelize.QueryTypes.SELECT});
-     const pre = {};
-     pre.id = req.params.id;
-     res.render("newComment",{pre:pre});
+app.get("/multi/:id/newComment/:comment_id",isLoggedIn,async function(req,res){
+ var pub = await sequelize.query("select * from pubs where id ="+req.params.id, {type: sequelize.QueryTypes.SELECT});
+ const pre = {};
+ pre.id = req.params.id;
+ res.render("newComment",{pre:pre});
 });
 
 app.post("/multi/:id/newComments",isLoggedIn,function(req,res){
-             const Comment = models.comment;
-             console.log('hiihihihi',req.body);
-             var data = {
-                userId:req.user.id,
-                pubId:req.params.id,
-                content:req.body.cont,
-                createdAt:new Date(),
-                updatedAt:new Date()
-             }
+ const Comment = models.comment;
+ console.log('hiihihihi',req.body);
+ var data = {
+  userId:req.user.id,
+  pubId:req.params.id,
+  content:req.body.cont,
+  author:req.user.name,
+  createdAt:new Date(),
+  updatedAt:new Date()
+}
 
 
-              Comment.create(data).then(newComment =>{
-                 res.redirect('/multi/'+req.params.id);
-              }); 
+Comment.create(data).then(newComment =>{
+ res.redirect('/multi/'+req.params.id);
+}); 
 });
 
-// //Edit comment
-// router.get("/:comment_id/edit",middleware.checkCommentOwnership,function(req,res){
-//      Campground.findById(req.params.id,function(err,foundCampground){
-//           if(err||!foundCampground){
-//               req.flash("error","campground does not exist");
-//               return res.redirect("back");
-//           }
-//            Comment.findById(req.params.comment_id,function(err,comment){
-//          if(err){
-//               req.flash("error",err.message);
-//               res.redirect("back");
-//           }else{
-//              res.render("comments/edit",{campground_id:req.params.id,comment:comment});
-//           }         
-//      });
-//   });
-// });
+//Edit comment
+app.get("/multi/:id/editComment/:comment_id",checkCommentOwnership,async function(req,res){
+   const pre = {};
+   const comment = await sequelize.query("select * from comments where id ="+req.params.comment_id, {type: sequelize.QueryTypes.SELECT});
+   console.log(comment);
+   pre.id = req.params.id;
+   pre.comment = comment[0];
+   res.render("editComment",{pre:pre});
+});
 
+app.post("/multi/:id/editComments/:comment_id",checkCommentOwnership,function(req,res){
+  const comment = models.comment;
+  var data = {
+    userId:req.user.id,
+    pubId:req.params.id,
+    content:req.body.cont,
+    author:req.user.name,
+    updatedAt:new Date()
+  }
+  comment.update(data,{where:{id:req.params.comment_id}}).then(newComment=>{
+    res.redirect('/multi/'+req.params.id);
+  });
+});
+
+async function checkCommentOwnership(req,res,next){
+    var comment = await sequelize.query("select * from comments where id ="+req.params.comment_id, {type: sequelize.QueryTypes.SELECT});
+    console.log('haha',comment);
+    if(comment[0].author === req.user.name){
+        return next();     
+    }
+    req.flash("error","You need to login correctly");
+         return res.redirect("/landing");  
+}
 // //update comment
 // router.put("/:comment_id",middleware.checkCommentOwnership,function(req,res){
 //     Comment.findByIdAndUpdate(req.params.comment_id,req.body.comment,function(err,foundComment){

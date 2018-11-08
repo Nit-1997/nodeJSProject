@@ -12,13 +12,17 @@ module.exports = (sequelize, Sequelize) => {
         key: 'id'
       },
       allowNull: false
-    },
+    }, 
     pubId: {
       type: Sequelize.UUID,
       references: {
         model: 'pubs',
         key: 'id'
       },
+      allowNull: false
+    },
+   author: {
+      type: Sequelize.STRING,
       allowNull: false
     },
     content: {
