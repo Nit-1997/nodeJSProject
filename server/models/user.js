@@ -29,15 +29,13 @@ module.exports =  (sequelize, Sequelize) => {
     createdAt: {
       allowNull: true,
       type: Sequelize.DATE
-    },
-    updatedAt: {
-      allowNull: true,
-      type: Sequelize.DATE
     }
   }, {});
   userSchema.associate= function (models) {
-    userSchema.hasOne(models.pub);
+    userSchema.hasMany(models.pub);
     userSchema.hasMany(models.comment);
+    userSchema.hasMany(models.events);
+    userSchema.hasMany(models.transaction);
   };
   return userSchema;
 };

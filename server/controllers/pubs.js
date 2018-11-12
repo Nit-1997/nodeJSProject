@@ -93,10 +93,11 @@ edit: async function (req, res) {
 			 	createdAt: new Date(),
 			 	image:req.body.image
 			 }
+             console.log('holahola',req.params.id);
 
 			 cloudinary.uploader.upload(req.file.path, function(result) {
 			 	data.image = result.secure_url;
-			 	pubs.update(data,{where:{userId:userId}}).then(newPub=>{
+			 	pubs.update(data,{where:{id:req.params.id}}).then(newPub=>{
 			 		res.redirect('/multi');
 			 	});
 

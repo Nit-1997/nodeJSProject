@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Clubbo</title>
+     <!--bootstrap-->
+	 <link rel="stylesheet" href="../assets/lib/bootstrap.min.css" />
+     <!-- font-awesome icon -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+     <!--main.css-->
+     <link rel="stylesheet" type="text/css" href="../assets/css/landing.css" />
+     <!--google font-->
+     <link href="https://fonts.googleapis.com/css?family=Damion" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Raleway" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/css?family=Nunito:300" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/css?family=Concert+One" rel="stylesheet">
+     </head>
+<body>
+
+<!--navbar-->	
+ <header> 
+  <nav class="navbar navbar-inverse no-margin  navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>    
+    </div>
+    <a class="navbar-brand" href="#">Clubbo</a>
+    <div class="navbar-collapse collapse">
+     <ul class="nav navbar-nav navbar-left">
+        <li><a href="#">Discover <i class="fas fa-search"></i></a></li>
+     </ul>
+     <ul class="nav navbar-nav navbar-right">
+     <% if(!currentUser){ %>        
+           <li><a href="/createPub">Add a pub <i class="fa fa-plus-circle"></i></a></li>
+           <li><a href="/login">Login <i class="fas fa-sign-in-alt"></i></a></li>
+           <li><a href="/signup">Sign up <i class="fas fa-user-plus"></i></a></li>
+        <% }else{ %>
+           <li><a href="#">welcome <%=currentUser.name%> <i class="fas fa-sign-in-alt"></i></a></li>
+           <li><a href="/createPub">Add a pub <i class="fa fa-plus-circle"></i></a></li>
+           <li><a href="/logout">Logout <i class="fas fa-sign-in-alt"></i></a></li>
+           <li><a href="/delete">Delete Account <i class="fas fa-sign-in-alt"></i></a></li>
+         <% } %> 
+     </ul>
+    </div>
+  </nav>
+ </header>
+
+
+<!--landing slide-->
+ <section id="home" class="position-relative cover-background tz-builder-bg-image border-none bg-img-one customHome1 bbc">
+             <% if(error && error.length>0){%> 
+             <div class="container">
+                  <div class="alert alert-danger" role="alert">
+                      <%=error%>
+                  </div> 
+             </div>
+    <% }%>
+     <% if(success && success.length>0){%>
+             <div class="container">
+                  <div class="alert alert-success" role="alert">
+                      <%=success%>
+                  </div> 
+             </div>
+    <% }%>         
+            <div class="container one-sixth-screen position-relative">
+                <div class="row">
+                    <div class="slider-typography text-center xs-position-absolute">
+                        <div class="slider-text-middle-main">
+                            <div class="slider-text-middle">
+                                <div class="col-md-12 col-sm-12 col-xs-12 center-col text-center pad-230px">
+                                	<!--<h1>Clubbo</h1>
+                                	<p>make clubbing easier</p>-->
+                                	<h1 id="cont">PAY HERE</h1>
+                                  <button  class="btn btn-primary reg" id="rzp-button1">Book Now</button>
+                                </div>
+                            </div>                                
+                        </div>
+                    </div>
+                </div>
+            </div>
+  </section>
+  
+   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+   <!--jQuery-->
+  <script type="text/javascript" src="../assets/lib/jquery.min.js"></script>
+  <!--bootstrap js -->      
+  <script type="text/javascript" src="../assets/lib/bootstrap.min.js"></script>
+
+  <script type="text/javascript" src="../assets/js/singlePubView.js"></script> 
+
+       
+</body>
+</html>

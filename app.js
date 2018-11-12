@@ -13,6 +13,9 @@ var  express        = require("express")
 , geocoder       = require("geocoder")
 , session        = require('express-session');
 
+const Razorpay = require('razorpay');
+
+var nodemailer = require('nodemailer');
 
 const sequelize = models.sequelize;
 
@@ -118,6 +121,10 @@ app.get("/multi/:id/edit",isLoggedIn,function(req,res){
 }); 
 });
 
+app.get("/razorPay",function(req,res){
+  res.render('razorPay');
+});
+
 
 app.get("/logout",function(req,res){
   req.logout();
@@ -127,6 +134,69 @@ app.get("/logout",function(req,res){
 
 app.get("/ticket",function(req,res){
   res.render('ticket');
+});
+
+app.post('/book',async function(req,res){
+ var paymentId  = req.body.razorpay_payment_id;
+ console.log('hi',paymentId);
+
+ setTimeout(function () {
+   console.log('halo');
+   res.render('ticket');
+ }, 10)
+
+ var transaction = models.transaction;
+
+ var data1 = {
+        userId:req.user.id,
+        amount:1800,
+        paymentId:paymentId,
+        contact:req.user.contact,
+        createdAt: new Date()
+      };
+
+  transaction.create(data1).then(newTransaction=>{
+    console.log(newTransaction);
+   });
+
+ let instance = new Razorpay({
+  key_id: 'rzp_test_RVcbfjLehUkMu8', 
+  key_secret: 'inOqiWCfS4eJVaZh1JkbyfXn'
+});
+
+ instance.payments.capture(paymentId,180000)
+ .then((data) => {
+    console.log(data);
+ }).catch((error) => {
+  console.log(error);
+});
+
+
+
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: '',
+    pass: ''
+  }
+});
+
+var mailOptions = {
+  from: 'clubbo123@gmail.com',
+  to: req.user.email,
+  subject: 'Transaction Successful on Clubbo',
+  text: 'Your passes for an amazing weekend have been generated with the secret-code '+paymentId+',Enter this secret code at the entry of pub,Happy clubbing:) '
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
+
 });
 
 //**************************************
@@ -151,11 +221,6 @@ async function isOwnerMode(req,res,next){
 req.flash("error","You need to login first");
 res.redirect("/landing");
 }
-
-app.post('/book',function(req,res){
- var paymentId  = req.body.paymentId;
- console.log(paymentId);
-});
 
 
 app.get('/multi/:id/createEvents',function(req,res){
@@ -214,6 +279,12 @@ cloudinary.uploader.upload(req.file.path, function(result) {
 });
 });
 
+
+app.post('/multi/:id/queryDate',function(req,res){
+ console.log(req.body);
+});
+
+
 app.get('/multi/:id/allEvents',async function(req,res){
  var event = await sequelize.query("select * from events where pubId ="+req.params.id, {type: sequelize.QueryTypes.SELECT});
  console.log(event);
@@ -230,7 +301,7 @@ app.get('/multi/:id/allEvents',async function(req,res){
 //comment
 //************************************************************
 
-app.get("/multi/:id/newComment/:comment_id",isLoggedIn,async function(req,res){
+app.get("/multi/:id/newComment",isLoggedIn,async function(req,res){
  var pub = await sequelize.query("select * from pubs where id ="+req.params.id, {type: sequelize.QueryTypes.SELECT});
  const pre = {};
  pre.id = req.params.id;
@@ -257,12 +328,12 @@ Comment.create(data).then(newComment =>{
 
 //Edit comment
 app.get("/multi/:id/editComment/:comment_id",checkCommentOwnership,async function(req,res){
-   const pre = {};
-   const comment = await sequelize.query("select * from comments where id ="+req.params.comment_id, {type: sequelize.QueryTypes.SELECT});
-   console.log(comment);
-   pre.id = req.params.id;
-   pre.comment = comment[0];
-   res.render("editComment",{pre:pre});
+ const pre = {};
+ const comment = await sequelize.query("select * from comments where id ="+req.params.comment_id, {type: sequelize.QueryTypes.SELECT});
+ console.log(comment);
+ pre.id = req.params.id;
+ pre.comment = comment[0];
+ res.render("editComment",{pre:pre});
 });
 
 app.post("/multi/:id/editComments/:comment_id",checkCommentOwnership,function(req,res){
@@ -279,75 +350,32 @@ app.post("/multi/:id/editComments/:comment_id",checkCommentOwnership,function(re
   });
 });
 
+
+app.get('/delete',async function(req,res){
+  var userId = req.user.id;
+  var name = req.user.name;
+  req.logout();
+  await sequelize.query("delete from users where id ="+userId, {type: sequelize.QueryTypes.DELETE});  
+  req.flash("success",name+", your account has been deleted permanently,All your posts and comments have been deleted:)");
+  res.redirect('/');            
+});
+
+app.get('/multi/:id/deleteComment/:comment_id',async function(req,res){
+  await sequelize.query("delete from comments where id ="+req.params.comment_id, {type: sequelize.QueryTypes.DELETE});  
+  req.flash("success",req.user.name+", your comment has been deleted Successfully:)");
+   res.redirect('/multi/'+req.params.id);          
+});
+
+
 async function checkCommentOwnership(req,res,next){
-    var comment = await sequelize.query("select * from comments where id ="+req.params.comment_id, {type: sequelize.QueryTypes.SELECT});
-    console.log('haha',comment);
-    if(comment[0].author === req.user.name){
-        return next();     
-    }
-    req.flash("error","You need to login correctly");
-         return res.redirect("/landing");  
+  var comment = await sequelize.query("select * from comments where id ="+req.params.comment_id, {type: sequelize.QueryTypes.SELECT});
+  console.log('haha',comment);
+  if(comment[0].author === req.user.name){
+    return next();     
+  }
+  req.flash("error","You need to login correctly");
+  return res.redirect("/landing");  
 }
-// //update comment
-// router.put("/:comment_id",middleware.checkCommentOwnership,function(req,res){
-//     Comment.findByIdAndUpdate(req.params.comment_id,req.body.comment,function(err,foundComment){
-//          if(err){
-//               req.flash("error",err.message);
-//              res.redirect("back");
-//          }else{
-//               req.flash("success","Comment updated successfully!!");
-//              res.redirect("/campgrounds/"+req.params.id);
-//          } 
-//     }); 
-// });
-
-// //delete comment
-// router.delete("/:comment_id",middleware.checkCommentOwnership,function(req,res){
-//     Comment.findByIdAndRemove(req.params.comment_id,function(err){
-//           if(err){
-//                req.flash("error",err.message);
-//               res.redirect("back");
-//           }else{
-//               req.flash("success","Comment deleted successfully!!");
-//               res.redirect("/campgrounds/"+req.params.id);
-//           } 
-//     }); 
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -360,7 +388,3 @@ app.listen(7000,function(){
  console.log("clubbo has started");
 });
 
-
-// function escapeRegex(text) {
-//     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-// };

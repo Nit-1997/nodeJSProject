@@ -4,6 +4,8 @@
 	<title>Clubbo</title>
      <!--bootstrap-->
 	 <link rel="stylesheet" href="../assets/lib/bootstrap.min.css" />
+   <link href="../assets/css/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+   <link href="../assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
      <!-- font-awesome icon -->
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
@@ -171,7 +173,7 @@
                                     <% if(currentUser&&(comm.author === currentUser.name)){ %>
                                       <a class="btn btn-xs btn-warning" href="/multi/<%=pre.pub.id%>/editComment/<%=comm.id%>">Edit</a>
                                       <form>
-                                          <button class="btn btn-danger btn-xs">Delete</button>
+                                      <a class="btn btn-danger btn-xs" href="/multi/<%=pre.pub.id%>/deleteComment/<%=comm.id%>">Delete</a>
                                       </form>
                                     <% } %>           
                           </div>
@@ -183,14 +185,22 @@
  		<div class="col-md-5 col-sm-12 col-xs-12 ht900">
        <div class="ht33">
            <h1>Book your passes</h1>
-            <form>
+            <form >
 							  <div class="form-group">
 							  	<div class="form-group">
 							    <label for="name">Select Date</label>
-							    <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="pick a date">
+							      <div name="date" class="controls input-append date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                    <input size="16" name="date" type="text" value="" readonly>
+                    <span class="add-on"><i class="icon-remove"></i></span>
+                    <span class="add-on"><i class="icon-th"></i></span>
+                </div>
+                    <input type="hidden" name="dated" id="dtp_input1" value="" /><br/>
 							    </div>
 							  </div>
+                <!-- <button class="btn btn-primary" type="submit">Book Now</button> -->
+                
 							 <a href="/multi/<%=pre.pub.id%>/allEvents" class="btn-primary">Book Now</button>
+                <!-- <a href="/multi/<%=pre.pub.id%>/queryDate" class="btn-primary">Book Now</button> -->
 							  <!-- <button  class="btn btn-primary reg" id="rzp-button1">Book Now</button> -->
                 <br><br>
                 <% if(currentUser&& ((pre.pub.userId) === (currentUser.id))){ %>
@@ -260,6 +270,11 @@
     });
   }
 </script>
+<script type="text/javascript">
+    $(".form_datetime").datetimepicker({
+        format: "dd MM yyyy - hh:ii"
+    });
+</script>            
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-zWKyBq78dZgZkKsLzWNoxNdoKDuBfzU&callback=initMap"></script>
 
   <!--jQuery-->
@@ -268,6 +283,43 @@
   <!--bootstrap js -->      
   <script type="text/javascript" src="../assets/lib/bootstrap.min.js"></script>
   <script type="text/javascript" src="../assets/js/singlePubView.js"></script> 
+
+  <script type="text/javascript" src="../assets/css/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../assets/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+  <script type="text/javascript" src="../assets/js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+  <script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+        showMeridian: 1
+    });
+  $('.form_date').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0
+    });
+  $('.form_time').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 1,
+    minView: 0,
+    maxView: 1,
+    forceParse: 0
+    });
+</script>
 
 </body>
 </html>

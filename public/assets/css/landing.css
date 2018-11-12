@@ -161,6 +161,27 @@ h1, h1 {
 }
 
 
+.customHome1{
+	background:linear-gradient(rgba(14,15,21,0.55), rgba(14,15,21,0.55)),url('../../assets/images/bund.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+    background-position: center;
+	height:400px;
+	z-index: 0;
+}
+
+@media only screen and (min-width: 768px){
+	.customHome1{
+	background:linear-gradient(rgba(14,15,21,0.55), rgba(14,15,21,0.55)),url('../../assets/images/bund.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+    background-position: center;
+	height:912px;
+	z-index: 0;
+ }
+}
+
+
 
 
 

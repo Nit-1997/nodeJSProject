@@ -53,8 +53,7 @@ module.exports = function(passport, user) {
                 name:req.body.name,
                 contact:req.body.contact,
                 password:userPassword,
-                createdAt:new Date(),
-                upadtedAt:new Date()
+                createdAt:new Date()
             };
             User.create(data).then(function(newUser, created) {
                 if (!newUser) {
