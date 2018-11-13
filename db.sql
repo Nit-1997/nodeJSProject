@@ -17,6 +17,15 @@ alter table events add foreign key (userId) references users(id) on delete casca
 alter table transactions drop foreign key transactions_ibfk_1;
 alter table transactions add foreign key (userId) references users(id) on delete cascade;
 
+--comments on delete cascade --
+alter table comments drop foreign key comments_ibfk_2;
+alter table comments add foreign key (pubId) references pubs(id) on delete cascade;
+
+--events on delete cascade  -- 
+alter table events drop foreign key events_ibfk_2;
+alter table events add foreign key (pubId) references pubs(id) on delete cascade;
+
+
 
 --trigger code --
 create table backup (name varchar(255) NOT NULL,mode varchar(255) NOT NULL,email varchar(255) DEFAULT NULL,contact varchar(255) DEFAULT NULL);

@@ -1,3 +1,7 @@
+.profiePic{
+	height: 56px;
+    border-radius: 30px;
+}
 html{
 	height:100%;
 }

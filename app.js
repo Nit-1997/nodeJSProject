@@ -26,6 +26,28 @@ app.use(methodOverride("_method"));
 app.use(bodyParser.json({limit: "50mb"}));
 app.use(flash());
 
+var multer = require('multer');
+var storage = multer.diskStorage({
+  filename: function(req, file, callback) {
+    callback(null, Date.now() + file.originalname);
+  }
+});
+var imageFilter = function (req, file, cb) {
+    // accept image files only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+      return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+  };
+  var upload = multer({ storage: storage, fileFilter: imageFilter});
+  var cloudinary = require('cloudinary');
+  cloudinary.config({ 
+    cloud_name: 'dskmn0vwa', 
+    api_key:"943622486141547", 
+    api_secret:"klX-ayutXqmxdZUmtL9bXhTQbro"
+  });
+//
+
 // set up app views handling
 app.set('view engine', 'ejs');
 
@@ -72,7 +94,7 @@ app.get('/signup', function(req,res){
  res.render('signup');
 });
 
-app.post('/register', passport.authenticate('local-signup', {
+app.post('/register',upload.single('image'), passport.authenticate('local-signup', {
   successRedirect: '/landing',
   failureRedirect: '/login'
 } 
@@ -177,7 +199,7 @@ app.post('/book',async function(req,res){
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: '',
+    user: 'clubbo123@gmail.com',
     pass: ''
   }
 });
@@ -230,27 +252,7 @@ app.get('/multi/:id/createEvents',function(req,res){
 });
 
 //
-var multer = require('multer');
-var storage = multer.diskStorage({
-  filename: function(req, file, callback) {
-    callback(null, Date.now() + file.originalname);
-  }
-});
-var imageFilter = function (req, file, cb) {
-    // accept image files only
-    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
-      return cb(new Error('Only image files are allowed!'), false);
-    }
-    cb(null, true);
-  };
-  var upload = multer({ storage: storage, fileFilter: imageFilter});
-  var cloudinary = require('cloudinary');
-  cloudinary.config({ 
-    cloud_name: 'dskmn0vwa', 
-    api_key:"943622486141547", 
-    api_secret:"klX-ayutXqmxdZUmtL9bXhTQbro"
-  });
-//
+
 
 
 
@@ -376,6 +378,29 @@ async function checkCommentOwnership(req,res,next){
   req.flash("error","You need to login correctly");
   return res.redirect("/landing");  
 }
+
+app.get('/deletePub/:id',async function(req,res){
+     await sequelize.query("delete from pubs where id ="+req.params.id, {type: sequelize.QueryTypes.DELETE});  
+     req.flash("success","deleted successfully:)");
+     res.redirect('/admin');
+});
+
+
+app.get('/admin',async function(req,res){
+   var  users = await sequelize.query("select * from users", {type: sequelize.QueryTypes.SELECT});
+   var  transactions = await sequelize.query("select * from transactions", {type: sequelize.QueryTypes.SELECT});
+   var  pubs = await sequelize.query("select * from pubs", {type: sequelize.QueryTypes.SELECT});
+   var  pubCount = pubs.length;
+   var  userCount = users.length;
+   var  data = {
+      users:users,
+      transactions:transactions,
+      pubs:pubs,
+      pubCount:pubCount,
+      userCount:userCount
+   };
+   res.render('admin',{data:data});
+});
 
 
 
